@@ -1,0 +1,26 @@
+{
+  "name": "jeepney",
+  "version": "1.0.0",
+  "description": "HTML5 data visualization framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stein2k/jeepney.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stein2k/jeepney/issues"
+  },
+  "homepage": "https://github.com/stein2k/jeepney#readme",
+  "devDependencies": {
+    "@types/leaflet": "^1.4.3",
+    "bindings": "^1.5.0",
+    "leaflet": "^1.4.0",
+    "node-addon-api": "^1.6.2",
+    "node-gyp": "^3.8.0"
+  }
+}
