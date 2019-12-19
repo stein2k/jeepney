@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "experimentalDecorators": true,
+        "module": "amd",
+        "moduleResolution": "node",
+        "noImplicitAny": true,
+        "paths": {
+            "jeepney/*": [
+                "./jeepney/*"
+            ]
+        },
+        "outDir": "./out",
+        "sourceMap": true,
+        "target": "es5"
+    },
+    "include": ["**/*.ts", "*.ts"],
+    "exclude": []
+}
