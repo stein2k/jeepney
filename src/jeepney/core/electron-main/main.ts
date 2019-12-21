@@ -1,59 +1,58 @@
-// import { JeepneyApplication } from 'jeepney/core/electron-main/app';
-// import { InstantiationService } from 'jeepney/platform/instantiation/common/instantiationService';
-// import { LifecycleService } from 'jeepney/platform/lifecycle/lifecycleService';
-// import { ILifecycleService } from 'jeepney/platform/lifecycle/lifecycle';
-// import { ServiceCollection } from 'jeepney/platform/instantiation/common/serviceCollection';
-// import { SyncDescriptor } from 'jeepney/platform/instantiation/common/descriptors';
-// import { IInstantiationService } from 'jeepney/platform/instantiation/common/instantiation';
-// import * as hello from 'jeepney/hello';
+import { JeepneyApplication } from 'jeepney/core/electron-main/app';
+import { InstantiationService } from 'jeepney/platform/instantiation/common/instantiationService';
+import { LifecycleService } from 'jeepney/platform/lifecycle/lifecycleService';
+import { ILifecycleService } from 'jeepney/platform/lifecycle/lifecycle';
+import { ServiceCollection } from 'jeepney/platform/instantiation/common/serviceCollection';
+import { SyncDescriptor } from 'jeepney/platform/instantiation/common/descriptors';
+import { IInstantiationService } from 'jeepney/platform/instantiation/common/instantiation';
+import { hello } from 'jeepney/hello';
 
-// class JeepneyMain {
+class JeepneyMain {
 
-//     private app : JeepneyApplication | undefined; 
-//     private instantiationService : InstantiationService | undefined;
-//     private lifecycleService : ILifecycleService | undefined;
+    private app : JeepneyApplication | undefined; 
+    private instantiationService : InstantiationService | undefined;
+    private lifecycleService : ILifecycleService | undefined;
 
-//     main() : void {
+    main() : void {
 
-//         // Launch
-//         this.startup();
+        // Launch
+        this.startup();
 
-//     }
+    }
 
-//     private createServices() : [IInstantiationService, typeof undefined] {
+    private createServices() : [IInstantiationService, typeof undefined] {
 
-//         const services = new ServiceCollection;
+        const services = new ServiceCollection;
 
-//         services.set(ILifecycleService, new SyncDescriptor(LifecycleService));
+        services.set(ILifecycleService, new SyncDescriptor(LifecycleService));
 
-//         return [new InstantiationService(services, true), undefined];
+        return [new InstantiationService(services, true), undefined];
 
-//     }
+    }
 
-//     private async startup() : Promise<void> {
+    private async startup() : Promise<void> {
 
-//         // init services
-//         const [instantiationService, instanceEnvironment] = this.createServices();
+        // init services
+        const [instantiationService, instanceEnvironment] = this.createServices();
 
-//         // // create instantiation service
-//         // this.instantiationService = new InstantiationService;
+        // // create instantiation service
+        // this.instantiationService = new InstantiationService;
 
-//         // // create lifecycle service
-//         // this.lifecycleService = new LifecycleService;
+        // // create lifecycle service
+        // this.lifecycleService = new LifecycleService;
 
-//         instantiationService.createInstance(JeepneyApplication).startup();
+        instantiationService.createInstance(JeepneyApplication).startup();
         
-//         // create application instance
-//         // this.app = new JeepneyApplication(this.lifecycleService);
-//         // this.app.startup();
+        // create application instance
+        // this.app = new JeepneyApplication(this.lifecycleService);
+        // this.app.startup();
 
 
-//     }
+    }
 
-// };
+};
 
-// // Main Startup
-// const code = new JeepneyMain();
-// code.main();
-import {hello} from 'jeepney/hello';
+// Main Startup
+const code = new JeepneyMain();
+code.main();
 console.log("hello " + hello());

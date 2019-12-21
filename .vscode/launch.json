@@ -17,6 +17,9 @@
         {
 			"type": "node",
             "request": "launch",
+            "args": [
+                "--remote-debugging-port=9222"
+            ],
             "cwd": "${workspaceFolder}",
             "name": "Launch Jeepney (Main Process)",
             "outFiles": [
@@ -28,7 +31,13 @@
             "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
             "sourceMaps": true,
 			"stopOnEntry": true
-		},
+        },
+        {
+            "type": "chrome",
+            "request": "attach",
+            "name": "Attach to Jeepney",
+            "port": 9222
+        },
         {
             "type": "node",
             "request": "launch",
@@ -38,6 +47,15 @@
             ],
             "program": "${workspaceFolder}/src/main",
             "sourceMaps": true
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Debug Jeepney Main and Renderer",
+            "configurations": [
+                "Launch Jeepney (Main Process)",
+                "Attach to Jeepney"
+            ]
         }
     ]
 }

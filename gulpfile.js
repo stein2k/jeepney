@@ -113,4 +113,10 @@ task('build-addon', (clbk)=>{
     });
 });
 
-task('build', series('clean', parallel('build-core', 'build-addon')));
+task('move-assets', (clbk) => {
+    const opts = getNativeBuildOptions();
+    return src(['src/jeepney/core/electron-browser/index.html', 'src/jeepney/core/electron-browser/index.js'], {base: 'src/'})
+        .pipe(dest(path.join(opts.outDir)))
+});
+
+task('build', series('clean', parallel('build-core', 'build-addon', 'move-assets')));

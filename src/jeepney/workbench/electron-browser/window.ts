@@ -2,12 +2,10 @@ import { ipcRenderer as ipc } from 'electron';
 import { Disposable } from 'jeepney/base/common/lifecycle';
 import { ILifecycleService, LifecyclePhase } from 'jeepney/platform/lifecycle/lifecycle';
 import { IWindowService } from 'jeepney/platform/windows/common/windows';
-import { XPlotFrame } from 'jeepney/workbench/common/xplot/xplot';
 
 export class ElectronWindow extends Disposable {
 
     private canvas : HTMLCanvasElement;
-    private xplotFrame : XPlotFrame;
 
     constructor(
         @IWindowService private readonly windowService : IWindowService,
@@ -19,8 +17,6 @@ export class ElectronWindow extends Disposable {
 
         this.registerListeners();
         this.create();
-
-        this.xplotFrame = new XPlotFrame(flag);
 
     }
 

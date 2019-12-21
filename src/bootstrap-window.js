@@ -39,9 +39,6 @@ exports.load = function(modulePaths, resultCallback, options) {
     
 	amdRequire.config(loaderConfig);
 
-	// amdDefine('jeepney/workbench/common/xplot/XPlotInterface', null, function (originalFS) { console.log('shite'); console.log(originalFS); })
-	amdRequire(['bindings'], function () { console.log('loaded bindings')});
-
     amdRequire(modulePaths, result => {
         try {
             const callbackResult = resultCallback(result, configuration);

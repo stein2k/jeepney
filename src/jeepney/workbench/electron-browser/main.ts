@@ -12,7 +12,7 @@ export class JeepneyRendererMain extends Disposable {
         const services = await this.initServices();
 
         // Create workbench
-        this.workbench = new Workbench(services.serviceCollection);
+        this.workbench = new Workbench(document.body, services.serviceCollection);
 
         // Startup
         const instantiationService = this.workbench.startup();

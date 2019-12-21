@@ -5,6 +5,10 @@ import { registerSingleton } from 'jeepney/platform/instantiation/common/extensi
 import { LifecycleService } from 'jeepney/platform/lifecycle/lifecycleService';
 import { ILifecycleService } from 'jeepney/platform/lifecycle/lifecycle';
 
+import 'jeepney/workbench/services/themes/workbenchThemeService';
 import 'jeepney/workbench/services/windowService';
+
+//#region -- workbench parts
+import 'jeepney/workbench/browser/parts/content/contentFrame';
 
 registerSingleton(ILifecycleService, LifecycleService);
