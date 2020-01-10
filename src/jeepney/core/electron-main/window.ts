@@ -1,3 +1,4 @@
+import { mixin } from 'jeepney/base/common/objects';
 import { IJeepneyWindow } from 'jeepney/platform/windows/electron-main/windows';
 import { IWindowConfiguration, ReadyState } from 'jeepney/platform/windows/common/windows';
 import { getPathFromAmdModule } from 'jeepney/base/common/amd';
@@ -40,7 +41,7 @@ export class JeepneyWindow implements IJeepneyWindow {
         };
 
         // create window configuration
-        let config : IWindowConfiguration =  { appRoot: path.resolve(getPathFromAmdModule(require, '')) };
+        let config : IWindowConfiguration =  mixin({}, { appRoot: path.resolve(getPathFromAmdModule(require, '')) });
 
         // Create browser window.
         this._win = new BrowserWindow(options);

@@ -1,0 +1,39 @@
+.actions-container {
+    display: flex;
+    margin: 0 auto;
+    padding: 0;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.action-label {
+    height: 48px;
+    width: 48px;
+}
+
+.menu-item {
+    cursor: pointer;
+    display: block;
+    transition: transform 50ms ease;
+    position: relative;
+    background-color: green;
+}
+
+.menu-item:hover {
+    opacity: 0.4;
+}
+
+.menu-item:before {
+    content: "";
+    position: absolute;
+    top: 9px;
+    left: 9px;
+    height: 32px;
+    width: 32px;
+}
+
+.badge {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}

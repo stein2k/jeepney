@@ -1,3 +1,5 @@
+import 'jeepney/workbench/browser/style';
+
 import { Disposable } from "jeepney/base/common/lifecycle";
 import { ServiceCollection } from "jeepney/platform/instantiation/common/serviceCollection";
 import { IInstantiationService } from "jeepney/platform/instantiation/common/instantiation";
@@ -6,11 +8,17 @@ import { ILifecycleService, LifecyclePhase } from "jeepney/platform/lifecycle/li
 import { getSingletonServiceDescriptors } from 'jeepney/platform/instantiation/common/extensions';
 import { IWorkbenchLayoutService } from "jeepney/workbench/services/layoutService";
 import { Layout } from 'jeepney/workbench/browser/layout';
+import { Parts } from 'jeepney/workbench/services/part/common/partService';
+import { addClass, addClasses } from "jeepney/base/browser/dom";
+import { IStorageService } from "jeepney/platform/storage/common/storage";
+import { IPartService } from './services/part/common/partService';
 
 export class Workbench extends Layout {
 
     private instantiationService: IInstantiationService;
     private lifecycleService: ILifecycleService;
+
+    private workspaceHidden: boolean;
 
     constructor (
         parent: HTMLElement,
@@ -26,11 +34,23 @@ export class Workbench extends Layout {
 
         instantiationService.invokeFunction(async accessor => {
 
+            // Services
+            const storageService = accessor.get(IStorageService);
+
             // Initialize Workbench Layout
             this.initLayout(accessor);
 
+            // Settings
+            this.initSettings();
+
+            // Render Workbench
+            this.renderWorkbench(instantiationService);
+
             // Create Workbench Layout
             this.createWorkbenchLayout(instantiationService);
+
+            // Layout
+            this.layout();
 
         });
 
@@ -39,6 +59,9 @@ export class Workbench extends Layout {
     }
 
     private initServices(serviceCollection : ServiceCollection) : IInstantiationService {
+
+        // Services we contribute
+        serviceCollection.set(IPartService, this);
 
         // Layout service
         serviceCollection.set(IWorkbenchLayoutService, this);
@@ -62,6 +85,45 @@ export class Workbench extends Layout {
 
         return instantiationService;
 
+    }
+
+    private initSettings(): void {
+
+        // Workspace visibility
+        this.workspaceHidden = false;
+
+    }
+
+    private renderWorkbench(instantiationService: IInstantiationService): void {
+
+        // Create Parts
+		[
+            { id: Parts.CONTENT_PART, role: 'main', classes: ['contentMain'], options: { restorePreviousState: this.state.workspace.restoreWorkspace } }
+		].forEach(({ id, role, classes, options }) => {
+            const partContainer = this.createPart(id, role, classes);
+            this.container.insertBefore(partContainer, this.container.lastChild);
+			this.getPart(id).create(partContainer, options);
+        });
+        
+        // Add Workbench to DOM
+		this.parent.appendChild(this.container);
+
+    }
+
+    private createPart(id: string, role: string, classes: string[]): HTMLElement {
+        const part = document.createElement('div');
+        addClasses(part, 'part', ...classes);
+        part.id = id;
+        part.setAttribute('role', role);
+        return part;
+    }
+
+    isVisible(part: Parts): boolean {
+        switch (part) {
+            case Parts.CONTENT_PART:
+                return !this.workspaceHidden;
+        }
+        return true;
     }
 
 }

@@ -5,10 +5,12 @@ const bootstrapWindow = require('../../../bootstrap-window');
 // Setup shell environment
 process['lazyEnv'] = getLazyEnv();
 
-bootstrapWindow.load(['jeepney/workbench/workbench.main'], 
+bootstrapWindow.load([
+	'jeepney/workbench/workbench.main'
+	], 
     function (workbench, configuration) {
         return process['lazyEnv'].then(function() {
-            return require('jeepney/workbench/electron-browser/main').main(); 
+            return require('jeepney/workbench/electron-browser/main').main(configuration); 
         });
 	});
 

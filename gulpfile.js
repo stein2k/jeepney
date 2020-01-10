@@ -6,6 +6,9 @@ const babel = require('gulp-babel');
 const rename = require('gulp-rename');
 const sourcemaps = require('gulp-sourcemaps');
 const typescript = require('gulp-typescript');
+const filter = require('gulp-filter');
+const pump = require('pump');
+const debug = require('gulp-debug');
 
 function logExec(stdout, stderr) {
     if (stdout) {
@@ -80,7 +83,20 @@ task('compile-typescript', (clbk) => {
 
 // }));
 
-task('build-core', parallel('compile-typescript', (clbk)=>{
+task('move-assets', parallel((clbk) => {
+    const opts = getNativeBuildOptions();
+    return src(['src/jeepney/core/electron-browser/index.html', 'src/jeepney/core/electron-browser/index.js', 'src/jeepney/core/electron-browser/index2.html', 'src/jeepney/core/electron-browser/index2.js', ], {base: 'src/'})
+        .pipe(dest(path.join(opts.outDir)))
+}, (clbk) => {
+    const opts = getNativeBuildOptions();
+    const srcPipe = src('src/**/*', { base: 'src' });
+    const cssFilter = filter(['**/*.css'], { restore: false });
+    return srcPipe
+        .pipe(cssFilter)
+        .pipe(dest(path.join(opts.outDir)));
+}));
+
+task('build-core', parallel('compile-typescript', 'move-assets', (clbk)=>{
     const opts = getNativeBuildOptions();
     return src(['src/bootstrap-amd.js', 'src/bootstrap-window.js', 'src/bootstrap.js', 'src/hello.js', 'src/main.js'])
         .pipe(sourcemaps.init())
@@ -88,7 +104,7 @@ task('build-core', parallel('compile-typescript', (clbk)=>{
         .pipe(dest(opts.outDir));
 }, (clbk)=>{
     const opts = getNativeBuildOptions();
-    return src(['src/jeepney/loader.js'])
+    return src(['src/jeepney/css.js', 'src/jeepney/loader.js', 'src/jeepney/nls.js'])
         .pipe(sourcemaps.init())
         .pipe(sourcemaps.write('.', {sourceRoot: path.resolve(path.join(__dirname, 'src/jeepney'))}))
         .pipe(dest(path.join(opts.outDir, 'jeepney')));
@@ -113,10 +129,4 @@ task('build-addon', (clbk)=>{
     });
 });
 
-task('move-assets', (clbk) => {
-    const opts = getNativeBuildOptions();
-    return src(['src/jeepney/core/electron-browser/index.html', 'src/jeepney/core/electron-browser/index.js'], {base: 'src/'})
-        .pipe(dest(path.join(opts.outDir)))
-});
-
-task('build', series('clean', parallel('build-core', 'build-addon', 'move-assets')));
+task('build', series('clean', parallel('build-core', 'build-addon')));

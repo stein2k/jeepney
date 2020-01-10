@@ -14,5 +14,9 @@ export class Themable extends Disposable {
         
     }
 
+    protected updateStyles(): void {
+		// Subclasses to override
+	}
+
 
 }

@@ -23,20 +23,22 @@
             "cwd": "${workspaceFolder}",
             "name": "Launch Jeepney (Main Process)",
             "outFiles": [
-                "${workspaceFolder}/out/**/*.js",
-                "${workspaceFolder}/out/*.js"
+                "${workspaceFolder}/out/**/*.js"
 			],
-            "program": "${workspaceFolder}/src/main.js",
-            "protocol": "inspector",
+            "program": "${workspaceFolder}/out/main.js",
             "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
             "sourceMaps": true,
-			"stopOnEntry": true
+            "stopOnEntry": false,
+            "windows": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
+            }
         },
         {
             "type": "chrome",
             "request": "attach",
             "name": "Attach to Jeepney",
-            "port": 9222
+            "port": 9222,
+            "sourceMaps": true
         },
         {
             "type": "node",
@@ -45,8 +47,21 @@
             "outFiles": [
                 "${workspaceFolder}/out/**/*.js"
             ],
-            "program": "${workspaceFolder}/src/main",
-            "sourceMaps": true
+            "program": "${workspaceFolder}/src/main"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "A Seat at the Table",
+            "program": "${workspaceFolder}/src/jeepney/main2.ts",
+            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
+            "windows": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
+            },
+            "cwd": "${workspaceFolder}/out",
+            "outFiles": ["${workspaceFolder}/out/**/*.js"],
+            "sourceMaps": true,
+            "stopOnEntry": false
         }
     ],
     "compounds": [
